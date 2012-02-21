@@ -1,4 +1,4 @@
-var Nucleus = require('nucleus');
+var Nucleus = require('../');
 var nucleus = new Nucleus();
 
 setInterval(function () {

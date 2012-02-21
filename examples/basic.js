@@ -1,4 +1,4 @@
-var Nucleus = require('nucleus');
+var Nucleus = require('../');
 var nucleus = new Nucleus();
 
 nucleus.on('connection', function (node) {
