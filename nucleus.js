@@ -11,6 +11,8 @@
  * incoming emissions
  */
 
+var os = require('os');
+
 /*
  * Create a new Nucleus object
  * Parse options
