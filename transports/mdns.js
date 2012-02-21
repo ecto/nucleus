@@ -7,12 +7,14 @@ mDNSTransport.browse = function (parent) {
     mdns.tcp('nucleus')
   );
 
-  var isSelf = function (parent, service) {
+  var isSelf = function (service) {
     var found = false;
     for (var i in service.addresses) {
       if (~parent._.addresses.indexOf(service.addresses[i])) {
-        found = true;
-        break;
+        if (service.port == parent.port) {
+          found = true;
+          break;
+        }
       }
     }
     return found;
