@@ -15,11 +15,12 @@ var net = require('net');
 var ee2 = require('eventemitter2');
 var util = require('util');
 var fs = require('fs');
+var Peer = require('lib/peer');
 
 /*
  * Create a new Nucleus object
  * Parse options
- * Trigger node browser
+ * Trigger transport loading
  */
 var Nucleus = function (options) {
   options = options || {};
