@@ -72,8 +72,6 @@ Nucleus.prototype.createServer = function () {
   this.$ = net.createServer(function (socket) {
     that.connectionHandler(socket);
   });
-  this.$.setNoDelay(true); // disable write buffering
-  this.$.setKeepAlive(true, 1000);
   this.$.listen(this.port, function () {
     that.ee.emit('server.ready');
   });
