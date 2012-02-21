@@ -88,15 +88,12 @@ Nucleus.prototype.connectionHandler = function (socket) {
     data.pop();
     for (var i in data) {
       var m = JSON.parse(data[i]);
-      console.log(m);
       that.ee.emit(m.name, m.data);
     }
   });
 
-  socket.on('end', function () {
-    console.log('client disconnected');
-    console.log(arguments);
-  });
+  // Do we need to do any cleanup here?
+  socket.on('end', function () {});
 }
 
 /*
