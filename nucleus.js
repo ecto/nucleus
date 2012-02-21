@@ -85,7 +85,9 @@ Nucleus.prototype.connectionHandler = function (socket) {
 
 Nucleus.prototype.broadcast = function (data) {
   for (var i in this.peers) {
-    this.peers[i].send(data);
+    if (this.peers[i].$.writable) {
+      this.peers[i].send(data);
+    }
   }
 }
 
