@@ -25,7 +25,7 @@ var Nucleus = function (options) {
   this.peers = [];
   this._ = {};
   this._.transport = options.redis ? 'redis' : 'mdns';
-  this.port = options.port || 42;
+  this.port = options.port || 42000;
   this.ee = new ee2();
   this.createServer();
   this.buildLocalAddresses();
