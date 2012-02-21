@@ -12,6 +12,7 @@
  */
 
 var os = require('os');
+var ee2 = require('eventemitter2').EventEmitter2;
 
 /*
  * Create a new Nucleus object
@@ -24,6 +25,7 @@ var Nucleus = function (options) {
   this._ = {};
   this._.transport = options.redis ? 'redis' : 'mdns';
   this.port = options.port || 42;
+  this.ee = new ee2();
   this.buildLocalAddresses();
   this.loadTransport();
 }

@@ -23,16 +23,35 @@ mDNSTransport.browse = function (parent) {
     return found;
   }
 
+  var locatePeer = function (service) {
+    var found = false;
+    for (var i in parent.peers) {
+      if (parent.peers[i]._.name == service.name) {
+        found = true;
+        break;
+      }
+    }
+    return found && i;
+  }
+
   _.on('serviceUp', function(service) {
     if (!isSelf(service)) {
-      parent.peers.push(new Peer({
-        
-      }));
+      var peer = {
+        parent: parent,
+        host: service.addresses[0],
+        port: service.port,
+        name: service.name
+      }
+      parent.peers.push(new Peer(peer));
+      parent.ee.emit('connection', peer);
     }
   });
 
   _.on('serviceDown', function(service) {
-    console.log("service down: ", service);
+    var i = locatePeer(service);
+    var p = parent.peers[i]._;
+    delete parent.peers[i];
+    parent.ee.emit('disconnection', p);
   });
 
   _.start();
