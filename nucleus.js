@@ -85,14 +85,20 @@ Nucleus.prototype.connectionHandler = function (socket) {
   socket.on('data', function (data) {
     data = data.toString();
     data = data.split('\r\n');
-    data.pop();
+    if (!data[data.length - 1]) data.pop();
     for (var i in data) {
       try {
         var m = JSON.parse(data[i]);
       } catch (e) {
-        console.log(m);
+        console.log(data[i]);
+        console.log(socket.messageBuffer);
       }
-      that.ee.emit(m.name, m.data);
+      if (m) {
+        that.ee.emit(m.name, m.data);
+      } else {
+        if (!socket.messageBuffer) socket.messageBuffer = [];
+        socket.messageBuffer.push(data[i]);
+      }
     }
   });
 
