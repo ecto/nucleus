@@ -72,6 +72,8 @@ Nucleus.prototype.createServer = function () {
   this.$ = net.createServer(function (socket) {
     that.connectionHandler(socket);
   });
+  this.$.setNoDelay(true); // disable write buffering
+  this.$.setKeepAlive(true, 1000);
   this.$.listen(this.port, function () {
     that.ee.emit('server.ready');
   });
@@ -89,15 +91,14 @@ Nucleus.prototype.connectionHandler = function (socket) {
     for (var i in data) {
       try {
         var m = JSON.parse(data[i]);
-      } catch (e) {
-        console.log(data[i]);
-        console.log(socket.messageBuffer);
-      }
+      } catch (e) {}
       if (m) {
         that.ee.emit(m.name, m.data);
       } else {
         if (!socket.messageBuffer) socket.messageBuffer = [];
         socket.messageBuffer.push(data[i]);
+        console.log(data[i]);
+        console.log(socket.messageBuffer);
       }
     }
   });
