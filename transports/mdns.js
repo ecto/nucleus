@@ -1,4 +1,5 @@
 var mdns = require('mdns');
+
 var mDNSTransport = {};
 
 mDNSTransport.browse = function (parent) {
@@ -6,8 +7,21 @@ mDNSTransport.browse = function (parent) {
     mdns.tcp('nucleus')
   );
 
+  var isSelf = function (parent, service) {
+    var found = false;
+    for (var i in service.addresses) {
+      if (~parent._.addresses.indexOf(service.addresses[i])) {
+        found = true;
+        break;
+      }
+    }
+    return found;
+  }
+
   _.on('serviceUp', function(service) {
-    console.log("service up: ", service);
+    if (!isSelf(service)) {
+      console.log(service);
+    }
   });
 
   _.on('serviceDown', function(service) {

@@ -14,8 +14,7 @@
 var net = require('net');
 var ee2 = require('eventemitter2');
 var util = require('util');
-var fs = require('fs');
-var Peer = require('lib/peer');
+var os = require('os');
 
 /*
  * Create a new Nucleus object
@@ -27,8 +26,15 @@ var Nucleus = function (options) {
   this.peers = [];
   this._ = {};
   this._.transport = options.redis ? 'redis' : 'mdns';
+  this.port = options.port || 42;
+  this.buildLocalAddresses();
   this.loadTransport();
 }
+
+/*
+ * Pretend to be an EventEmitter
+ */
+Nucleus.prototype = require(__dirname + '/lib/events.js');
 
 /*
  * Load our advertisement transport
@@ -41,7 +47,19 @@ Nucleus.prototype.loadTransport = function () {
   this.transport.advertise(this);
 }
 
-Nucleus.prototype.on = function () {}
-Nucleus.prototype.emit = function () {}
+Nucleus.prototype.buildLocalAddresses = function () {
+  this._.addresses = [];
+  var interfaces = os.networkInterfaces();
+  for (var i in interfaces) {
+    for (var j in interfaces[i]) {
+      this._.addresses.push(
+        interfaces[i][j].address
+      );
+    }
+  }
+}
 
+/*
+ * Say cheese
+ */
 module.exports = Nucleus;
