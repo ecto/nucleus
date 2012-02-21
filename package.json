@@ -11,6 +11,11 @@
   "engines": {
     "node": "*"
   },
-  "dependencies": {},
+  "dependencies": {
+    "eventemitter2": "*",
+    "mdns": "*",
+    "redis": "*",
+    "hiredis": "*"
+  },
   "devDependencies": {}
 }
