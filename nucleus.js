@@ -72,8 +72,15 @@ Nucleus.prototype.createServer = function () {
   });
 }
 
-Nucleus.prototype.connectionHandler = function () {
-  console.log(arguments);
+Nucleus.prototype.connectionHandler = function (socket) {
+  socket.on('data', function (data) {
+    console.log(data.toString());
+  });
+
+  socket.on('end', function () {
+    console.log('client disconnected');
+    console.log(arguments);
+  });
 }
 
 Nucleus.prototype.broadcast = function (data) {
