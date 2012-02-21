@@ -1,5 +1,5 @@
 var mdns = require('mdns');
-
+var Peer = require('../lib/peer');
 var mDNSTransport = {};
 
 mDNSTransport.browse = function (parent) {
@@ -25,7 +25,9 @@ mDNSTransport.browse = function (parent) {
 
   _.on('serviceUp', function(service) {
     if (!isSelf(service)) {
-      console.log(service);
+      parent.peers.push(new Peer({
+        
+      }));
     }
   });
 
