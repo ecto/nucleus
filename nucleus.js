@@ -64,6 +64,9 @@ Nucleus.prototype.buildLocalAddresses = function () {
   }
 }
 
+/*
+ * Set up a TCP server to listen for Peer clients
+ */
 Nucleus.prototype.createServer = function () {
   var that = this;
   this.$ = net.createServer(this.connectionHandler);
@@ -72,6 +75,9 @@ Nucleus.prototype.createServer = function () {
   });
 }
 
+/*
+ * Handle a Peer client connecting to TCP server
+ */
 Nucleus.prototype.connectionHandler = function (socket) {
   socket.on('data', function (data) {
     console.log(data.toString());
@@ -83,6 +89,9 @@ Nucleus.prototype.connectionHandler = function (socket) {
   });
 }
 
+/*
+ * Write to all TCP Peer clients
+ */
 Nucleus.prototype.broadcast = function (data) {
   for (var i in this.peers) {
     if (this.peers[i].$.writable) {

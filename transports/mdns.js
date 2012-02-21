@@ -7,6 +7,11 @@ mDNSTransport.browse = function (parent) {
     mdns.tcp('nucleus')
   );
 
+  /*
+   * Determine if a service originates from localhost
+   * Depends on Nucleus#buildLocalAddresses firing before this
+   * mDNS doesn't have a filter for this :(
+   */
   var isSelf = function (service) {
     var found = false;
     for (var i in service.addresses) {
@@ -23,6 +28,10 @@ mDNSTransport.browse = function (parent) {
     return found;
   }
 
+  /*
+   * Return the index of given `service`
+   * inside Nucleus#peers
+   */
   var locatePeer = function (service) {
     var found = false;
     for (var i in parent.peers) {
@@ -34,6 +43,9 @@ mDNSTransport.browse = function (parent) {
     return found && i;
   }
 
+  /*
+   * Respond to a discovered Peer
+   */
   _.on('serviceUp', function(service) {
     if (!isSelf(service)) {
       var peer = {
@@ -47,6 +59,11 @@ mDNSTransport.browse = function (parent) {
     }
   });
 
+  /*
+   * Handle a Peer going down
+   * Hopefully happens after connection
+   * and peer construction
+   */
   _.on('serviceDown', function(service) {
     var i = locatePeer(service);
     var p = parent.peers[i]._;
@@ -57,6 +74,10 @@ mDNSTransport.browse = function (parent) {
   _.start();
 }
 
+/*
+ * Trigger an mDNS advertisement as a "nucleus" service
+ * Always running
+ */
 mDNSTransport.advertise = function (parent) {
   var _ = parent._.ad = mdns.createAdvertisement(
     mdns.tcp('nucleus'),
