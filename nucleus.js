@@ -69,7 +69,9 @@ Nucleus.prototype.buildLocalAddresses = function () {
  */
 Nucleus.prototype.createServer = function () {
   var that = this;
-  this.$ = net.createServer(this.connectionHandler);
+  this.$ = net.createServer(function (socket) {
+    that.connectionHandler(socket);
+  });
   this.$.listen(this.port, function () {
     that.ee.emit('server.ready');
   });
