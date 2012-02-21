@@ -82,7 +82,12 @@ Nucleus.prototype.connectionHandler = function (socket) {
   socket.on('data', function (data) {
     data = data.toString();
     data = data.split('\r\n');
-    console.log(data);
+    data.pop();
+    for (var i in data) {
+      var m = JSON.parse(data[i]);
+      console.log(m);
+      this.ee.emit(m.name, m.data);
+    }
   });
 
   socket.on('end', function () {
