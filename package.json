@@ -1,0 +1,16 @@
+{
+  "author": "Cam Pedersen <diffference@gmail.com> (http://campedersen.com/)",
+  "name": "nucleus",
+  "description": "Distributed event emission over TCP with autodiscovery via mDNS or Redis",
+  "version": "0.0.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ecto/nucleus.git"
+  },
+  "main": "nucleus.js",
+  "engines": {
+    "node": "*"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
