@@ -12,8 +12,9 @@
  */
 
 var net = require('net');
-var ee = require('ee2');
+var ee2 = require('eventemitter2');
 var util = require('util');
+var fs = require('fs');
 
 /*
  * Create a new Nucleus object
@@ -22,11 +23,24 @@ var util = require('util');
  */
 var Nucleus = function (options) {
   options = options || {};
-  if (options.redis) {
-
-  }
-
+  this.peers = [];
+  this._ = {};
+  this._.transport = options.redis ? 'redis' : 'mdns';
+  this.loadTransport();
 }
 
-util.inherits(Nulceus, ee2);
+/*
+ * Load our advertisement transport
+ * Trigger browser
+ */
+Nucleus.prototype.loadTransport = function () {
+  var t = this._.transport;
+  this.transport = require(__dirname + '/transports/' + t);
+  this.transport.browse(this); // need to provide context to the transport
+  this.transport.advertise(this);
+}
+
+Nucleus.prototype.on = function () {}
+Nucleus.prototype.emit = function () {}
+
 module.exports = Nucleus;
