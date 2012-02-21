@@ -11,11 +11,6 @@
  * incoming emissions
  */
 
-var net = require('net');
-var ee2 = require('eventemitter2');
-var util = require('util');
-var os = require('os');
-
 /*
  * Create a new Nucleus object
  * Parse options
@@ -47,6 +42,10 @@ Nucleus.prototype.loadTransport = function () {
   this.transport.advertise(this);
 }
 
+/*
+ * Compile an easily-searchable array
+ * of local addresses
+ */
 Nucleus.prototype.buildLocalAddresses = function () {
   this._.addresses = [];
   var interfaces = os.networkInterfaces();
