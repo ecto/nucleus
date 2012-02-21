@@ -13,6 +13,7 @@
 
 var os = require('os');
 var ee2 = require('eventemitter2').EventEmitter2;
+var net = require('net');
 
 /*
  * Create a new Nucleus object
@@ -26,6 +27,7 @@ var Nucleus = function (options) {
   this._.transport = options.redis ? 'redis' : 'mdns';
   this.port = options.port || 42;
   this.ee = new ee2();
+  this.createServer();
   this.buildLocalAddresses();
   this.loadTransport();
 }
@@ -60,6 +62,18 @@ Nucleus.prototype.buildLocalAddresses = function () {
       );
     }
   }
+}
+
+Nucleus.prototype.createServer = function () {
+  var that = this;
+  this.$ = net.createServer(this.connectionHandler);
+  this.$.listen(this.port, function () {
+    that.ee.emit('server.ready');
+  });
+}
+
+Nucleus.prototype.connectionHandler = function () {
+  console.log(arguments);
 }
 
 /*
