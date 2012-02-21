@@ -76,6 +76,12 @@ Nucleus.prototype.connectionHandler = function () {
   console.log(arguments);
 }
 
+Nucleus.prototype.broadcast = function (data) {
+  for (var i in this.peers) {
+    this.peers[i].send(data);
+  }
+}
+
 /*
  * Say cheese
  */
