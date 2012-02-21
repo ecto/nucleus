@@ -11,6 +11,9 @@ mDNSTransport.browse = function (parent) {
     var found = false;
     for (var i in service.addresses) {
       if (~parent._.addresses.indexOf(service.addresses[i])) {
+        // there is a better way to do this
+        // if there are multiple service addresses
+        // we must choose one to connect to
         if (service.port == parent.port) {
           found = true;
           break;
