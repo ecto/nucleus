@@ -80,7 +80,9 @@ Nucleus.prototype.createServer = function () {
  */
 Nucleus.prototype.connectionHandler = function (socket) {
   socket.on('data', function (data) {
-    console.log(data.toString());
+    data = data.toString();
+    data = data.split('\r\n');
+    console.log(data);
   });
 
   socket.on('end', function () {
