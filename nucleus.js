@@ -79,6 +79,7 @@ Nucleus.prototype.createServer = function () {
  * Handle a Peer client connecting to TCP server
  */
 Nucleus.prototype.connectionHandler = function (socket) {
+  var that = this;
   socket.on('data', function (data) {
     data = data.toString();
     data = data.split('\r\n');
@@ -86,7 +87,7 @@ Nucleus.prototype.connectionHandler = function (socket) {
     for (var i in data) {
       var m = JSON.parse(data[i]);
       console.log(m);
-      this.ee.emit(m.name, m.data);
+      that.ee.emit(m.name, m.data);
     }
   });
 
